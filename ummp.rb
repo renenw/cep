@@ -23,7 +23,7 @@ def receive_udp_packets
     udp_amqp_client = AMQP.connect(:host => RABBIT_HOST,  :password => RABBIT_PASSWORD)
     channel  = AMQP::Channel.new(udp_amqp_client)
     exchange = channel.direct(RABBIT_EXCHANGE)
-    EventMachine::open_datagram_socket '10.245.77.15', 54545, UmmpServer, exchange
+    EventMachine::open_datagram_socket UMMP_IP, 54545, UmmpServer, exchange
   end
 end
 

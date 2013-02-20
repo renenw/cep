@@ -1,0 +1,43 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    amq-client (0.8.7)
+      amq-protocol (>= 0.8.4)
+      eventmachine
+    amq-protocol (0.8.4)
+    amqp (0.8.4)
+      amq-client (~> 0.8.7)
+      amq-protocol (~> 0.8.4)
+      eventmachine
+    dalli (1.1.4)
+    em-websocket (0.4.0)
+      eventmachine (>= 0.12.9)
+      http_parser.rb (~> 0.5.3)
+    eventmachine (0.12.10)
+    faraday (0.8.5)
+      multipart-post (~> 1.1)
+    http_parser.rb (0.5.3)
+    json (1.6.3)
+    log_wrapper (0.0.1)
+    multi_json (1.6.1)
+    multipart-post (1.1.5)
+    mysql2 (0.3.11)
+    simple_oauth (0.2.0)
+    twitter (4.5.0)
+      faraday (~> 0.8, < 0.10)
+      multi_json (~> 1.0)
+      simple_oauth (~> 0.2)
+    tzinfo (0.3.29)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  amqp (~> 0.8.4)
+  dalli
+  em-websocket
+  json (~> 1.6.3)
+  log_wrapper
+  mysql2
+  twitter
+  tzinfo

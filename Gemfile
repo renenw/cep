@@ -1,0 +1,10 @@
+source 'http://rubygems.org'
+
+gem "json", "~> 1.6.3"
+gem "amqp", "~> 0.8.4"
+gem 'mysql2'
+gem 'dalli'
+gem 'tzinfo'
+gem 'log_wrapper'
+gem 'twitter'
+gem 'em-websocket'

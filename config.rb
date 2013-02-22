@@ -8,9 +8,10 @@ PAYLOAD_HISTORY_ITEMS     = 500
 ANOMOLOUS_READING_HISTORY = 200
 
 UMMP_IP         = '0.0.0.0'
+UMMP_PORT       = 54545
 
 RABBIT_HOST     = '127.0.0.1'
-RABBIT_PASSWORD = '2PvvWRzgrivs'
+RABBIT_PASSWORD = 'guest'
 
 RABBIT_EXCHANGE = ''
 
@@ -21,6 +22,8 @@ DATA_STORE          = '30_camp_ground_road'
 TEMPERATURE_SUFFIX  = '&deg; C'
 WATT_HOURS          = ' wh<sup>-1</sup>'
 BPS                 = ' bs<sup>-1</sup>'
+
+OW_HTTP_ROOT_URL    = 'http://192.168.0.252:2121'
 
 SETTINGS = {
   'timezone' => 'Africa/Johannesburg'
@@ -66,7 +69,13 @@ MONITORS = {
                                               }
                                             } 
                             },
-  'temperature_cellar'  => { :monitor_type => :gauge, :expected_frequency => 300, :suffix => TEMPERATURE_SUFFIX, :websocket => { :reading => true } },
+  'temperature_cellar'  => {
+                              :monitor_type       => :gauge, 
+                              :expected_frequency => 300, 
+                              :suffix             => TEMPERATURE_SUFFIX,
+                              :ow_path            => '/1F.77E703000000/main/28.A2E07C020000/temperature',
+                              :websocket          => { :reading => true }
+                            },
   'temperature_outside' => { 
                               :monitor_type => :gauge, 
                               :expected_frequency => 300, 

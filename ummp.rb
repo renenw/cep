@@ -13,6 +13,7 @@ module UmmpServer
   end
 
   def receive_data(udp_data)
+    p udp_data
     message = { 'received' => Time.now.to_f, 'packet' => udp_data.strip, 'guid' => SecureRandom.uuid }.to_json
     @ummp_exchange.publish message, :routing_key => 'udp_message_received'
   end
@@ -23,7 +24,7 @@ def receive_udp_packets
     udp_amqp_client = AMQP.connect(:host => RABBIT_HOST,  :password => RABBIT_PASSWORD)
     channel  = AMQP::Channel.new(udp_amqp_client)
     exchange = channel.direct(RABBIT_EXCHANGE)
-    EventMachine::open_datagram_socket UMMP_IP, 54545, UmmpServer, exchange
+    EventMachine::open_datagram_socket UMMP_IP, UMMP_PORT, UmmpServer, exchange
   end
 end
 

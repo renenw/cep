@@ -30,7 +30,7 @@ end
 
 def orchestrate
   udp_receiver = Thread.new() { receive_udp_packets }
-  p "Started UDP listener"
+  p "Started UDP listener on #{UMMP_IP}:#{UMMP_PORT}"
   udp_receiver.join
 end
 

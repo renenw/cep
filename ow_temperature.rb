@@ -37,7 +37,9 @@ def valid_target?(target)
 	valid
 end
 
-if valid_target?(ARGV[0])
+def run(target)
 	temperature = get_temperature(ARGV[0])
-	publish_temperature ARGV[0], temperature
+	publish_temperature ARGV[0], temperature if temperature
 end
+
+run(ARGV[0]) if valid_target?(ARGV[0])

@@ -14,10 +14,10 @@ require 'log_wrapper'
 # Creating a thread for the EM event loop
 Thread.new do
   EventMachine.run do
-  	p "starting websocket listener"
+  	p "starting websocket listener on #{WEB_SOCKET_IP}:#{WEB_SOCKET_PORT}"
     # Creates a websocket listener
-    EventMachine::WebSocket.start(:host => '0.0.0.0', :port => 8081) do |ws|
-      ws.onopen do
+    EventMachine::WebSocket.start(:host => WEB_SOCKET_IP, :port => WEB_SOCKET_PORT) do |ws|
+      ws.onopen do 
         p 'creating socket'
         @sockets << ws
       end

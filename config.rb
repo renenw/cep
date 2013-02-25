@@ -1,4 +1,4 @@
-require './credentials'
+require_relative './credentials'
 
 Infinity = 1.0/0
 
@@ -34,10 +34,11 @@ SETTINGS = {
 
 MONITORS = {
   'electricity_total'   => { 
-                              :monitor_type => :pulse, 
+                              :monitor_type       => :pulse, 
                               :expected_frequency => 60, 
-                              :suffix => WATT_HOURS, 
-                              :range => { :min => 0, :max => Infinity}, 
+                              :suffix             => WATT_HOURS, 
+                              :range              => { :min => 0, :max => Infinity}, 
+                              :ow_path            => '/1F.77E703000000/aux/1D.72DC0F000000/counters.A',
                               :websocket => { 
                                               :dimensions => {
                                                 'day'   => ['sum'],
@@ -50,7 +51,8 @@ MONITORS = {
                               :monitor_type => :pulse, 
                               :expected_frequency => 60, 
                               :suffix => WATT_HOURS, 
-                              :range => { :min => 0, :max => Infinity},
+                              :range => { :min => 0, :max => Infinity}, 
+                              :ow_path            => '/1F.77E703000000/aux/1D.72DC0F000000/counters.B',
                               :websocket => { 
                                               :dimensions => {
                                                 'day'   => ['sum'],
@@ -63,7 +65,8 @@ MONITORS = {
                               :monitor_type => :pulse, 
                               :expected_frequency => 60, 
                               :suffix => WATT_HOURS, 
-                              :range => { :min => 0, :max => Infinity},
+                              :range => { :min => 0, :max => Infinity}, 
+                              :ow_path            => '/1F.77E703000000/aux/1D.426D0F000000/counters.A',
                               :websocket => { 
                                               :dimensions => {
                                                 'day'   => ['sum'],
@@ -82,7 +85,8 @@ MONITORS = {
   'temperature_outside' => { 
                               :monitor_type => :gauge, 
                               :expected_frequency => 300, 
-                              :suffix => TEMPERATURE_SUFFIX , 
+                              :suffix => TEMPERATURE_SUFFIX,
+                              :ow_path            => '/1F.77E703000000/main/28.4CDC7C020000/temperature', 
                               :websocket => { 
                                               :reading => true,
                                               :dimensions => {
@@ -94,6 +98,7 @@ MONITORS = {
                               :monitor_type => :gauge, 
                               :expected_frequency => 300, 
                               :suffix => TEMPERATURE_SUFFIX, 
+                              :ow_path            => '/1F.77E703000000/main/28.9DDA7C020000/temperature', 
                               :websocket => { 
                                               :reading => true,
                                               :dimensions => {

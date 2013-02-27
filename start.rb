@@ -20,7 +20,9 @@ require './bandwidth_handlers'
 require './alarm_handlers'
 require './weather_handlers'
 
+require './websocket'
 require './tweet'
+require './message_logger'
 
 include Lifecycle_Handlers
 include MRTG_Handlers
@@ -30,6 +32,8 @@ include Bandwidth_Handlers
 include Alarm_Handlers
 include Tweet
 include Weather_Handlers
+include Websocket
+include Message_Logger
 
 @mysql = Mysql2::Client.new(:host => "localhost", :username => "root", :database => "30_camp_ground_road")
 @cache = Cacher.new('localhost:11211')
@@ -48,6 +52,9 @@ include Weather_Handlers
 	:after_received											=> { :next_queue => :reading },
 	:reading 														=> { :exchange   => :readings },
 }
+
+# other queues
+# websocket_broadcast
 
 @fan_out_exchanges = {
   :readings => {

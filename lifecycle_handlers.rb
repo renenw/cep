@@ -5,7 +5,7 @@ module Lifecycle_Handlers
 	# an opportunity to rewrite messages, ditch them etc
 	# we add some very basic stuff (not that the upstream receiver would have added a timestamp)
 	def udp_message_received(payload)
-	  data = payload['packet'].scan(/[\w\.]+/)
+		data = payload['packet'].scan(/[\w\.]+/)
 	  if data && data[0] && MONITORS[data[0]]
 	    source_type = MONITORS[data[0]][:monitor_type]
 	    if source_type

@@ -38,8 +38,8 @@ def valid_target?(target)
 end
 
 def run(target)
-	reading = get_reading(ARGV[0])
-	publish_reading ARGV[0], reading if reading
+	reading = get_reading(target)
+	publish_reading target, reading if reading
 end
 
 run(ARGV[0]) if valid_target?(ARGV[0])

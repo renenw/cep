@@ -9,20 +9,20 @@ require 'pp'
 require 'log_wrapper'
 require 'twitter'
 
-require './cacher'
-require './config'
+require_relative '../config/config'
 
-require './lifecycle_handlers'
-require './mrtg_handlers'
-require './monitor_handlers'
-require './reading_handlers'
-require './bandwidth_handlers'
-require './alarm_handlers'
-require './weather_handlers'
+require_relative 'cep/cacher'
+require_relative 'cep/websocket'
+require_relative 'cep/tweet'
+require_relative 'cep/message_logger'
 
-require './websocket'
-require './tweet'
-require './message_logger'
+require_relative 'cep/handlers/lifecycle_handlers'
+require_relative 'cep/handlers/mrtg_handlers'
+require_relative 'cep/handlers/monitor_handlers'
+require_relative 'cep/handlers/reading_handlers'
+require_relative 'cep/handlers/bandwidth_handlers'
+require_relative 'cep/handlers/alarm_handlers'
+require_relative 'cep/handlers/weather_handlers'
 
 include Lifecycle_Handlers
 include MRTG_Handlers
@@ -37,7 +37,7 @@ include Message_Logger
 
 @mysql = Mysql2::Client.new(:host => "localhost", :username => "root", :database => "30_camp_ground_road")
 @cache = Cacher.new('localhost:11211')
-@log   = Log_Wrapper.new
+@log   = Log_Wrapper.new(LOG_FILE)
 
 # on_receive (called for both the source type, and the source (on_receive_mrtg or on_receive_electricity_pool).
 # after_received (ditto)

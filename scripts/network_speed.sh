@@ -8,10 +8,10 @@ size=2048000
 TIMEFORMAT='%6R'
 
 # Get the file repeatedly
-t1=$( { time curl -s "$target" -o download_test.t1 > /dev/null; } 2>&1 )
-t2=$( { time curl -s "$target" -o download_test.t2 > /dev/null; } 2>&1 )
-t3=$( { time curl -s "$target" -o download_test.t3 > /dev/null; } 2>&1 )
-t4=$( { time curl -s "$target" -o download_test.t4 > /dev/null; } 2>&1 )
+t1=$( { time curl -s "$target" -o /home/renen/cep/scripts/download_tests/download_test.t1 > /dev/null; } 2>&1 )
+t2=$( { time curl -s "$target" -o /home/renen/cep/scripts/download_tests/download_test.t2 > /dev/null; } 2>&1 )
+t3=$( { time curl -s "$target" -o /home/renen/cep/scripts/download_tests/download_test.t3 > /dev/null; } 2>&1 )
+t4=$( { time curl -s "$target" -o /home/renen/cep/scripts/download_tests/download_test.t4 > /dev/null; } 2>&1 )
 
 # Confirm file sizes
 s1=$(stat -c%s "download_test.t1")

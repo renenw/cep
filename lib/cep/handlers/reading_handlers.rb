@@ -1,5 +1,3 @@
-require './websocket'
-
 module Reading_Handlers
 
 	include Websocket

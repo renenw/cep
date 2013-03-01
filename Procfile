@@ -1,3 +1,3 @@
-ummp:	      bundle exec ruby ummp.rb
-cep:        bundle exec ruby start.rb
-web_socket: bundle exec ruby web_socket_server.rb
+ummp:	    bundle exec ruby lib/ummp.rb
+cep:        bundle exec ruby lib/cep.rb
+web_socket: bundle exec ruby lib/web_socket_server.rb

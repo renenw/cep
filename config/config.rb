@@ -28,6 +28,8 @@ BPS                 = ' bs<sup>-1</sup>'
 
 OW_HTTP_ROOT_URL    = 'http://192.168.0.252:2121'
 
+LOG_FILE            = '/home/renen/cep.log'
+
 SETTINGS = {
   'timezone' => 'Africa/Johannesburg'
 }

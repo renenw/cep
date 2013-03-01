@@ -4,7 +4,7 @@
 require 'amqp'
 require 'json'
 require 'securerandom'
-require './config'
+require_relative '../config/config'
 
 module UmmpServer
 

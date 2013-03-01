@@ -3,7 +3,7 @@
 
 require 'amqp'
 require 'json'
-require './config'
+require_relative '../config/config'
 
 #RABBIT_HOST     = '127.0.0.1'
 #RABBIT_PASSWORD = '2PvvWRzgrivs'

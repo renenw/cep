@@ -5,13 +5,13 @@ module Monitor_Handlers
   end
 
 	def handle_pulse_specific_calculations(payload)
-	  prior_pulses = @cache.fetch("#{payload['data_store']}.pulse.last.#{payload['source']}") do
+	  prior_pulses = @cache.fetch("#{payload['data_store']}.pulse.last.#{payload['source']}")
+          unless prior_pulses
 	    p "pulse miss"
-	    pulses = payload['integer_value']	# assume that we haven't seen this meter before. Therefore, first reading is 0 watt hours (or similar)
+	    prior_pulses = payload['integer_value']	# assume that we haven't seen this meter before. Therefore, first reading is 0 watt hours (or similar)
 	    @mysql.query("select max(integer_value) as pulses from #{payload['data_store']}.events where source = '#{payload['source']}' and id < #{payload['event_id']};").each do |row|
-	      pulses = row['pulses']
+	      prior_pulses = row['pulses']
 	    end
-	    pulses
 	  end
 	  if prior_pulses
 	  	# leave the two step assignment for clarity

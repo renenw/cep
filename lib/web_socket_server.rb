@@ -4,11 +4,11 @@
 require 'amqp'
 require 'json'
 require 'securerandom'
-require './config'
 require 'em-websocket'
 require 'log_wrapper'
+require_relative '../config/config'
 
-@log     = Log_Wrapper.new
+@log     = Log_Wrapper.new(LOG_FILE)
 @sockets = []
 
 # Creating a thread for the EM event loop

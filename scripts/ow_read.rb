@@ -1,7 +1,7 @@
 require 'net/http'
 require 'socket'
 require 'log_wrapper'
-require_relative './config'
+require_relative '../config/config'
 
 @log   	= Log_Wrapper.new( File.join(File.dirname(__FILE__), 'log.txt') )
 

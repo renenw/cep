@@ -1,7 +1,7 @@
 require 'socket'
 require 'log_wrapper'
 require 'open-uri'
-require_relative './config'
+require_relative '../config/config'
 
 @log   	= Log_Wrapper.new( File.join(File.dirname(__FILE__), 'log.txt') )
 
@@ -13,7 +13,9 @@ end
 
 def publish_state(target, target_state)
 	socket = UDPSocket.new
-	socket.send("#{target} #{target_state}", 0, UMMP_IP, UMMP_PORT)
+        switch = 1
+        switch = 0 if target_state == 'OFF'
+	socket.send("#{target} #{switch}", 0, UMMP_IP, UMMP_PORT)
 end
 
 def get_pio(target)

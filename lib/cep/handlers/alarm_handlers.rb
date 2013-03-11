@@ -3,7 +3,7 @@ module Alarm_Handlers
 	def after_received_alarm_armed(payload)
 		
 		broadcast_message_to_websockets 'alarm', ( payload['integer_value']==0 ? 'Off' : 'Armed' ), payload
-		log_message 'alarm', :debug, 'test', payload
+		log_message 'alarm', :debug, 'test', payload['guid']
 
 		time = Time.at(payload['local_time'])
 		message = {

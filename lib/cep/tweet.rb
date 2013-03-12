@@ -7,7 +7,15 @@ module Tweet
 	  config.oauth_token_secret = TWITTER_OAUTH_TOKEN_SECRET
 	end
 
-	def tweet(payload)
+  def tweet(message, guid)
+  	message = {
+			'guid' 		  => guid,
+			'message' 	=> message
+		}
+		@fan_out_exchanges[:twitter][:exchange].publish message.to_json
+  end
+
+	def send_tweet(payload)
 		if payload['twitter']
 			begin
 				@log.debug('Tweeting', :guid => payload['guid']) do 

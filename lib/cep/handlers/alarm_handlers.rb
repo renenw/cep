@@ -2,16 +2,14 @@ module Alarm_Handlers
 
 	def after_received_alarm_armed(payload)
 		
-		broadcast_message_to_websockets 'alarm', ( payload['integer_value']==0 ? 'Off' : 'Armed' ), payload
-		log_message 'alarm', :debug, 'test', payload['guid']
+		time    = Time.at(payload['local_time'])
+		off     = (payload['integer_value']==0)
+		guid    = payload['guid']
 
-		time = Time.at(payload['local_time'])
-		message = {
-			:guid 		=> payload['guid'],
-			:twitter 	=> true,
-			:message 	=> "#{( payload['integer_value']==0 ? 'Disarmed' : 'Armed' )}. Set at #{time.strftime("%H:%M:%S")}."
-		}
-		@fan_out_exchanges[:twitter][:exchange].publish message.to_json
+		broadcast_message_to_websockets 'alarm', (off ? 'Off' : 'Armed'), payload
+		log_message                     'alarm', :info, (off ? 'Alarm disarmed' : 'Alarm armed'), payload
+		tweet                           "#{(off ? 'Disarmed' : 'Armed')}. Set at #{time.strftime("%H:%M:%S")}.", guid
+		
 	  payload
 
 	end

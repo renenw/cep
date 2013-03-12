@@ -1,7 +1,12 @@
 module Websocket
 
 	def broadcast_to_websockets(payload)
+		# NB: Web socket broadcast queue served by completely different code (by web_socket_server.rb)
 		@exchange.publish payload.to_json, :routing_key => 'websocket_broadcast'
+	end
+
+	def broadcast_log_message_to_websockets(payload)
+		broadcast_to_websockets payload.merge( { 'log' => true } )
 	end
 
 	def broadcast_message_to_websockets(message_type, message, payload)

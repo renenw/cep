@@ -51,6 +51,7 @@ include Message_Logger
 	:handle_pulse_specific_calculations => { :next_queue => :after_received },
 	:after_received											=> { :next_queue => :reading },
 	:reading 														=> { :exchange   => :readings },
+  :message_logger                     => {}
 }
 
 # other queues
@@ -61,7 +62,7 @@ include Message_Logger
     :queues => [ 'cache_reading', 'summarisation', 'handle_history', 'calculate_outlier_threshold', 'cache_sources' ]
   },
   :twitter   => {
-    :queues => [ 'tweet' ]
+    :queues => [ 'send_tweet' ]
   }
 }
 

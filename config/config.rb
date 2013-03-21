@@ -34,6 +34,21 @@ SETTINGS = {
   'timezone' => 'Africa/Johannesburg'
 }
 
+ALARM_ZONE_DEFINITIONS = {
+  "02" => 'Cellar',
+  "06" => 'Front door',
+  "07" => 'Braai',
+  "08" => 'Garden near kids rooms',
+  "09" => 'Outside scullery door',
+  "14" => 'Dining room',
+  "15" => 'Family room',
+  "16" => 'Stoep',
+  "17" => 'House side of driveway',
+  "18" => 'South side of driveway',
+  "19" => 'Outhouse',
+  "21" => 'Pedestrian entrance',
+}
+
 MONITORS = {
   'electricity_total'   => { 
                               :monitor_type       => :pulse, 
@@ -128,5 +143,7 @@ MONITORS = {
   'driveway'            => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.5' },
   'vegetable_patch'     => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.6' },
   'jungle_gym'          => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.7' },
+
+  'alarm_message'       => { :monitor_type => :status },
 
 }

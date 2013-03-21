@@ -21,7 +21,6 @@ module Message_Logger
   	  guid_sql    			= ( payload['guid'] ? "'#{payload['guid']}'" : 'null' )
 			message_sql 			= payload['message'].gsub(/'/, '''''') 
 			@mysql.query("insert into messages (source, message_type, log_level, guid, message, created_at) values ('#{payload['source']}', '#{payload['message_type']}', '#{payload['log_level']}', #{guid_sql}, '#{message_sql}', now());")
-			broadcast_log_message_to_websockets payload
 			nil
 	end
 

@@ -16,14 +16,12 @@ module Tweet
   end
 
 	def send_tweet(payload)
-		if payload['twitter']
-			begin
-				@log.debug('Tweeting', :guid => payload['guid']) do 
-					@log.debug 'Tweeted', :guid => payload['guid'], :payload => Twitter.update(payload['message'])
-				end
-			rescue Twitter::Error::Forbidden => e
-				p "Twitter call failed: #{e}"
+		begin
+			@log.debug('Tweeting', :guid => payload['guid']) do 
+				@log.debug 'Tweeted', :guid => payload['guid'], :payload => Twitter.update(payload['message'])
 			end
+		rescue Twitter::Error::Forbidden => e
+			p "Twitter call failed: #{e}"
 		end
 	end
 

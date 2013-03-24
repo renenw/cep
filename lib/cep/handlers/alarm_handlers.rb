@@ -8,7 +8,7 @@ module Alarm_Handlers
 
 		broadcast_message_to_websockets 'alarm', (off ? 'Off' : 'Armed'), payload
 		log_message                     'alarm', :info, (off ? 'Alarm disarmed' : 'Alarm armed'), payload
-		tweet                           "#{(off ? 'Disarmed' : 'Armed')}. Set at #{time.strftime("%H:%M:%S")}.", guid
+		tweet                           "#{(off ? 'Disarmed' : 'Armed')} (#{time.strftime("%H:%M:%S")}).", guid
 		
 	  payload
 
@@ -17,7 +17,7 @@ module Alarm_Handlers
 	def on_receive_alarm_message(payload)
 		
 		description = CGI::unescape(payload['packet']).match(/\s(.+$)/)[0].strip
-		log_levl    = :warn
+		log_level    = :warn
 		log_message = description.squeeze
 		log_type    = 'notice'
 
@@ -36,12 +36,14 @@ module Alarm_Handlers
       zone          = ALARM_ZONE_DEFINITIONS[circuit] if ALARM_ZONE_DEFINITIONS[circuit]
       integer_value = circuit.to_i
       log_type      = 'activation'
-      log_message   = "#{zone} alarm sensor activated (zone #{integer_value})"
+      log_message   = "#{zone} alarm sensor activated (zone #{integer_value}; #{Time.now.strftime("%H:%M:%S")})."
     end
 
-    broadcast_message_to_websockets log_type, log_message, payload
+    if log_level == :error
+	    broadcast_message_to_websockets log_type, log_message, payload
+			tweet                           "#{log_message}",   payload['guid']
+		end
 		log_message                     log_type, log_level, log_message, payload
-		tweet                           "#{log_message}",   payload['guid']
 
 		nil
 	end

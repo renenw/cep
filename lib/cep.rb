@@ -22,6 +22,7 @@ require_relative 'cep/handlers/monitor_handlers'
 require_relative 'cep/handlers/reading_handlers'
 require_relative 'cep/handlers/bandwidth_handlers'
 require_relative 'cep/handlers/alarm_handlers'
+require_relative 'cep/handlers/solenoid_handlers'
 require_relative 'cep/handlers/weather_handlers'
 
 include Lifecycle_Handlers
@@ -34,6 +35,7 @@ include Tweet
 include Weather_Handlers
 include Websocket
 include Message_Logger
+include Solenoid_Handlers
 
 @mysql = Mysql2::Client.new(:host => "localhost", :username => "root", :database => "30_camp_ground_road")
 @cache = Cacher.new('localhost:11211')

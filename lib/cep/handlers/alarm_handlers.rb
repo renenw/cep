@@ -2,7 +2,6 @@ module Alarm_Handlers
 
 	def after_received_alarm_armed(payload)
 		
-		time    = Time.at(payload['local_time'])
 		off     = (payload['integer_value']==0)
 		guid    = payload['guid']
                 changed = true
@@ -13,7 +12,7 @@ module Alarm_Handlers
 		broadcast_message_to_websockets 'alarm', (off ? 'Off' : 'Armed'), payload
                 if changed
                   log_message                     'alarm', :info, (off ? 'Alarm disarmed' : 'Alarm armed'), payload
-                  tweet                           "#{(off ? 'Disarmed' : 'Armed')} (#{time.strftime("%H:%M:%S")}).", guid
+                  tweet                           "#{(off ? 'Disarmed' : 'Armed')}", guid
                 end
 
                 payload
@@ -42,12 +41,12 @@ module Alarm_Handlers
       zone          = ALARM_ZONE_DEFINITIONS[circuit] if ALARM_ZONE_DEFINITIONS[circuit]
       integer_value = circuit.to_i
       log_type      = 'activation'
-      log_message   = "#{zone} alarm sensor activated (zone #{integer_value}; #{Time.now.strftime("%H:%M:%S")})."
+      log_message   = "#{zone} alarm sensor activated (zone #{integer_value})."
     end
 
     if log_level == :error
 	    broadcast_message_to_websockets log_type, log_message, payload
-			tweet                           "#{log_message}",   payload['guid']
+			tweet                           log_message,   payload['guid']
 		end
 		log_message                     log_type, log_level, log_message, payload
 

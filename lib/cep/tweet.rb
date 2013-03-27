@@ -18,11 +18,25 @@ module Tweet
 	def send_tweet(payload)
 		begin
 			@log.debug('Tweeting', :guid => payload['guid']) do 
-				@log.debug 'Tweeted', :guid => payload['guid'], :payload => Twitter.update(payload['message'])
+				@log.debug 'Tweeted', :guid => payload['guid'], :payload => Twitter.update(format_message(payload['message']))
 			end
 		rescue Twitter::Error::Forbidden => e
 			p "Twitter call failed: #{e}"
 		end
 	end
+
+	protected
+
+		def format_message(message)
+			r   = message.strip
+			dot = (message[-1,1]=='.')
+                        now = Lifecycle_Handlers_Utils.get_local_time(SETTINGS['timezone'], Time.now).strftime("%H:%M:%S")
+			if dot
+				r = "#{r} #{now}."
+			else
+				r = "#{r} (#{now})."
+			end
+			r
+		end
 
 end

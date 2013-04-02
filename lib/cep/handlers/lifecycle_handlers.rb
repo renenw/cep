@@ -41,17 +41,17 @@ module Lifecycle_Handlers
 
 	# checks to see if on event methods have been defined for this source type, or this source, and then calls them
 	def on_event(event_type, payload)
-		if payload["source_type"] == "solenoid"
-			p "On Event: Solenoid"
-			p payload
-		end
+		
 		type_target = "#{event_type}_#{payload['source_type']}".to_sym
 		payload     = __send__(type_target, payload) if respond_to?(type_target)
+
 		if payload
 			name_target = "#{event_type}_#{payload['source']}".to_sym
 			payload     = __send__(name_target, payload) if respond_to?(name_target)
 		end
+
 		payload
+
 	end
 	
 

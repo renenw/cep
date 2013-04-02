@@ -1,6 +1,6 @@
 module Solenoid_Handlers
 
-	def on_event_solenoid(payload)
+	def on_receive_solenoid(payload)
 		
 		#time    = Time.at(payload['local_time'])
 		#off     = (payload['integer_value']==0)

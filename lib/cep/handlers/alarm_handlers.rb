@@ -4,18 +4,18 @@ module Alarm_Handlers
 		
 		off     = (payload['integer_value']==0)
 		guid    = payload['guid']
-                changed = true
+    changed = true
 
 		state = @cache.get("#{payload['data_store']}.reading.alarm_armed")
-                changed = (state['reading'].to_i!=payload['integer_value']) if state
+    changed = (state['reading'].to_i!=payload['integer_value']) if state
 
 		broadcast_message_to_websockets 'alarm', (off ? 'Off' : 'Armed'), payload
-                if changed
-                  log_message                     'alarm', :info, (off ? 'Alarm disarmed' : 'Alarm armed'), payload
-                  tweet                           "#{(off ? 'Disarmed' : 'Armed')}", guid
-                end
+    if changed
+      log_message                   'alarm', :info, (off ? 'Alarm disarmed' : 'Alarm armed'), payload
+      tweet                         "#{(off ? 'Disarmed' : 'Armed')}", guid
+    end
 
-                payload
+    payload
 
 	end
 

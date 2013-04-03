@@ -11,6 +11,7 @@ require 'twitter'
 
 require_relative '../config/config'
 
+require_relative 'cep/utils'
 require_relative 'cep/cacher'
 require_relative 'cep/websocket'
 require_relative 'cep/tweet'

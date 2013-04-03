@@ -137,12 +137,12 @@ MONITORS = {
   'bandwidth_qos'       => { :monitor_type => :gauge, :expected_frequency => 86400 },
   'weather_forecast'    => { :monitor_type => :keep_alive, :name => 'Weather Forecast', :expected_frequency => 60*60*24 },
 
-  'front'               => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.2' },
-  'front_fynbos'        => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.3' },
-  'outhouse_lawn'       => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.4' },
-  'driveway'            => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.5' },
-  'vegetable_patch'     => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.6' },
-  'jungle_gym'          => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.7' },
+  'front'               => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.2', :websocket => { :reading => true }, :name => 'Front garden irrigation' },
+  'front_fynbos'        => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.3', :websocket => { :reading => true },  :name => 'Front fynbos beds irrigation' },
+  'outhouse_lawn'       => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.4', :websocket => { :reading => true },  :name => 'Outhouse lawn irrigation' },
+  'driveway'            => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.5', :websocket => { :reading => true },  :name => 'Driveway irrigation' },
+  'vegetable_patch'     => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.6', :websocket => { :reading => true },  :name => 'Vegetable Patch irrigation' },
+  'jungle_gym'          => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.7', :websocket => { :reading => true },  :name => 'Jungle Gym irrigation' },
 
   'alarm_message'       => { :monitor_type => :status },
 

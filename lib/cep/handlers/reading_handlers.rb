@@ -4,7 +4,7 @@ module Reading_Handlers
 
 	def reading(payload)
 		reasonable = reading_reasonable(payload)
-	  sql_error = nil
+		sql_error = nil
 	  if reasonable
 	    t = payload['dimensions']
 	    begin

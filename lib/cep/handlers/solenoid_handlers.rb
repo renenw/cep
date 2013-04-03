@@ -1,17 +1,28 @@
 module Solenoid_Handlers
 
-	def on_receive_solenoid(payload)
+	def after_received_solenoid(payload)
 		
-		#time    = Time.at(payload['local_time'])
-		#off     = (payload['integer_value']==0)
-		#guid    = payload['guid']
+		changed			= true
+		on_duration = nil
 
-		#broadcast_message_to_websockets 'alarm', (off ? 'Off' : 'Armed'), payload
-		#log_message                     'alarm', :info, (off ? 'Alarm disarmed' : 'Alarm armed'), payload
-		#tweet                           "#{(off ? 'Disarmed' : 'Armed')} (#{time.strftime("%H:%M:%S")}).", guid
-		
-		p "Solenoid!!!"
-		p payload
+		off 				= (payload['integer_value']==0)
+		state 			= @cache.get("#{payload['data_store']}.reading.#{payload['source']}")
+    changed 		= (state['reading'].to_i!=payload['integer_value']) if state
+    on_duration	= payload['local_time'] - (state['local_time']/1000.0) if off && state
+
+    if changed && state
+    	message = MONITORS[payload['source']][:name]
+    	if off
+    		message = "#{message} ran for #{CEP_Utils.duration_description(on_duration)}"
+    	else
+    		message = "#{message} switched on"
+    	end
+
+			if changed
+	      log_message                   'solenoid', (off ? :error : :info), message, payload
+	      tweet                         message, payload['guid']
+	    end
+  	end
 
 	  payload
 

@@ -82,10 +82,14 @@ module Lifecycle_Handlers
 
 	class Lifecycle_Handlers_Utils
 
+		#def self.get_local_time(timezone, event_time_in_utc)
+		#  tz = TZInfo::Timezone.get(timezone)
+		#  tz.utc_to_local(event_time_in_utc)
+		#end
+
 		def self.get_local_time(timezone, event_time_in_utc)
-		  tz = TZInfo::Timezone.get(timezone)
-		  tz.utc_to_local(event_time_in_utc)
-		end
+			CEP_Utils.get_local_time(timezone, event_time_in_utc)
+		end		
 
 		def self.get_tagged_dimensions(local_time)
 		  tagged_dimensions = { 'all_time' => 0 }

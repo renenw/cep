@@ -30,7 +30,7 @@ module Tweet
 		def format_message(message)
 			r   = message.strip
 			dot = (message[-1,1]=='.')
-                        now = Lifecycle_Handlers_Utils.get_local_time(SETTINGS['timezone'], Time.now).strftime("%H:%M:%S")
+      now = CEP_Utils.get_local_time(SETTINGS['timezone'], Time.now).strftime("%H:%M:%S")
 			if dot
 				r = "#{r} #{now}."
 			else

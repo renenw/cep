@@ -1,13 +1,14 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-require "amqp"
+require 'amqp'
 require 'json'
 require 'mysql2'
 require 'tzinfo'
 require 'pp'
 require 'log_wrapper'
 require 'twitter'
+require 'net/http' 
 
 require_relative '../config/config'
 
@@ -16,6 +17,7 @@ require_relative 'cep/cacher'
 require_relative 'cep/websocket'
 require_relative 'cep/tweet'
 require_relative 'cep/message_logger'
+require_relative 'cep/sms'
 
 require_relative 'cep/handlers/lifecycle_handlers'
 require_relative 'cep/handlers/mrtg_handlers'
@@ -34,6 +36,7 @@ include Reading_Handlers
 include Bandwidth_Handlers
 include Alarm_Handlers
 include Tweet
+include SMS
 include Weather_Handlers
 include Websocket
 include Message_Logger
@@ -66,9 +69,8 @@ include Grey_Water_Handlers
   :readings => {
     :queues => [ 'cache_reading', 'summarisation', 'handle_history', 'calculate_outlier_threshold', 'cache_sources' ]
   },
-  :twitter   => {
-    :queues => [ 'send_tweet' ]
-  }
+  :twitter    => { :queues => [ 'send_tweet' ] },
+  :sms        => { :queues => [ 'send_sms' ] }
 }
 
 def message_handler
@@ -79,13 +81,14 @@ def message_handler
 
       @exchange = channel.direct(RABBIT_EXCHANGE)
       @fan_out_exchanges[:twitter][:exchange]   = channel.fanout(RABBIT_TWITTER_EXCHANGE)
+      @fan_out_exchanges[:sms][:exchange]       = channel.fanout(RABBIT_SMS_EXCHANGE)
       @fan_out_exchanges[:readings][:exchange]  = channel.fanout(RABBIT_READINGS_EXCHANGE)
 
       @fan_out_exchanges.each_key do |exchange|
         @fan_out_exchanges[exchange][:queues].each do |fanout_queue|
           @log.info "Binding #{fanout_queue} to fanout exchange: #{exchange}"
           channel.queue(fanout_queue, :auto_delete => false).bind(@fan_out_exchanges[exchange][:exchange]).subscribe do |message|
-            handle_message fanout_queue, message
+            safely_handle_message fanout_queue, message
           end
         end
       end
@@ -93,11 +96,19 @@ def message_handler
       @queues.each_key do |queue|
     		@log.info "Subscribing to: #{queue}"
       	channel.queue(queue.to_s, :auto_delete => false).subscribe do |message|
-      		handle_message queue, message
+      		safely_handle_message queue, message
       	end
       end
 
     end
+  end
+end
+
+def safely_handle_message(queue, message)
+  begin
+    handle_message(queue, message)
+  rescue => e
+    @log.error "Failed to process a #{queue} message because of a #{e.class.to_s} error: #{e.message}. Message: #{message}"
   end
 end
 

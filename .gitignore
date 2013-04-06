@@ -18,3 +18,4 @@ sftp-config.json
 .yardoc
 _yardoc
 doc/
+config/credentials.rb

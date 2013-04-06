@@ -1,8 +1,8 @@
 module Alarm_Handlers
 
 	def after_received_alarm_armed(payload)
-		
-		off     = (payload['integer_value']==0)
+
+    off     = (payload['integer_value']==0)
 		guid    = payload['guid']
     changed = true
 

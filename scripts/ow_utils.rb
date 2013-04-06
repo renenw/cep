@@ -9,6 +9,14 @@ module OW_Utils
 		res.body
 	end
 
+	def http_get(url)
+		uri = URI.parse(url)
+		http = Net::HTTP.new(uri.host, uri.port)
+		response = http.request(Net::HTTP::Get.new(uri.request_uri))
+		raise IOError, "Invalid HTTP response code (#{response.code} received)" if response.code != "200"
+		response.body
+	end
+
 	def publish_reading(target, reading)
 		socket = UDPSocket.new
 		socket.send("#{target} #{reading}", 0, UMMP_IP, UMMP_PORT)

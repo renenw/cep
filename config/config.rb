@@ -21,6 +21,7 @@ RABBIT_EXCHANGE = ''
 
 RABBIT_READINGS_EXCHANGE  = 'process_inbound'
 RABBIT_TWITTER_EXCHANGE   = 'holler_exchange'
+RABBIT_SMS_EXCHANGE       = 'sms_exchange'
 
 DATA_STORE          = '30_camp_ground_road'
 TEMPERATURE_SUFFIX  = '&deg; C'
@@ -30,6 +31,8 @@ BPS                 = ' bs<sup>-1</sup>'
 OW_HTTP_ROOT_URL    = 'http://192.168.0.252:2121'
 
 LOG_FILE            = '/home/renen/cep.log'
+
+SMS_RECIPIENT_LIST  = '27833939595,27832536857'
 
 SETTINGS = {
   'timezone' => 'Africa/Johannesburg'

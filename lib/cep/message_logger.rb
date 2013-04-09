@@ -9,7 +9,8 @@ module Message_Logger
 			'message_type'  => message_type.strip,
 			'log_level' 		=> log_level,
 			'message' 			=> message.strip,
-			'guid' 				  => payload['guid']
+			'guid' 				  => payload['guid'],
+			'local_time'		=> payload['local_time'],
 		}
 
 		if validate?(payload)
@@ -18,10 +19,10 @@ module Message_Logger
 	end
 
   def message_logger(payload)
-  	  guid_sql    			= ( payload['guid'] ? "'#{payload['guid']}'" : 'null' )
-			message_sql 			= payload['message'].gsub(/'/, '''''') 
-			@mysql.query("insert into messages (source, message_type, log_level, guid, message, created_at) values ('#{payload['source']}', '#{payload['message_type']}', '#{payload['log_level']}', #{guid_sql}, '#{message_sql}', now());")
-			nil
+  	# order matters
+  	cache_message(payload)
+  	save_message_to_db(payload)
+  	nil
 	end
 
   protected
@@ -35,6 +36,19 @@ module Message_Logger
 	  		raise ArgumentError, 'Either no guid, or a valid guid, is required.'
 	  	end
 	  	true
+	  end
+
+	  def cache_message(payload)
+	  	unless @cache.get("#{payload['data_store']}.messages.cached")
+	  		warm_message_history_cache
+	  	end
+	  	@cache.array_append("#{payload['data_store']}.messages", payload, MESSAGE_LOGGER_HISTORY_ITEMS)
+	  end
+
+	  def save_message_to_db(payload)
+	  	guid_sql    			= ( payload['guid'] ? "'#{payload['guid']}'" : 'null' )
+			message_sql 			= payload['message'].gsub(/'/, '''''') 
+			@mysql.query("insert into messages (source, message_type, log_level, guid, message, created_at) values ('#{payload['source']}', '#{payload['message_type']}', '#{payload['log_level']}', #{guid_sql}, '#{message_sql}', now());")
 	  end
 
 end

@@ -18,6 +18,7 @@ require_relative 'cep/websocket'
 require_relative 'cep/tweet'
 require_relative 'cep/message_logger'
 require_relative 'cep/sms'
+require_relative 'cep/cache_warmer'
 
 require_relative 'cep/handlers/lifecycle_handlers'
 require_relative 'cep/handlers/mrtg_handlers'
@@ -42,6 +43,7 @@ include Websocket
 include Message_Logger
 include Solenoid_Handlers
 include Grey_Water_Handlers
+include Cache_Warmer
 
 @mysql = Mysql2::Client.new(:host => "localhost", :username => "root", :database => "30_camp_ground_road")
 @cache = Cacher.new('localhost:11211')
@@ -109,6 +111,7 @@ def safely_handle_message(queue, message)
     handle_message(queue, message)
   rescue => e
     @log.error "Failed to process a #{queue} message because of a #{e.class.to_s} error: #{e.message}. Message: #{message}"
+    raise e
   end
 end
 

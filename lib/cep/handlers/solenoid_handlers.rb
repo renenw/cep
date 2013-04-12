@@ -10,8 +10,6 @@ module Solenoid_Handlers
     changed 		= (state['reading'].to_i!=payload['integer_value']) if state
     on_duration	= payload['local_time'] - (state['local_time']/1000.0) if off && state
 
-p "#{off} : #{state} : #{changed} : #{on_duration}"
-
     if changed
     	message = MONITORS[payload['source']][:name]
     	if off

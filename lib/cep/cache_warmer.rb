@@ -1,8 +1,13 @@
 module Cache_Warmer
 
+	def warm_caches
+		@cache.set("monitors", MONITORS)
+		warm_message_history_cache
+	end
+
 	def warm_message_history_cache
 
-		p "Cache miss: messages"
+		p "Warm cache: messages"
 	 	
 	 	history = []
     @mysql.query("select * from messages order by id desc limit #{MESSAGE_LOGGER_HISTORY_ITEMS}").each do |row|
@@ -13,7 +18,7 @@ module Cache_Warmer
 										'log_level' 		=> row['log_level'],
 										'message' 			=> row['message'],
 										'guid' 				  => row['guid'],
-										'local_time' 		=> CEP_Utils.get_local_time(SETTINGS['timezone'], row['created_at'].to_i),
+										'local_time' 		=> CEP_Utils.get_local_time(SETTINGS['timezone'], row['created_at'].to_i)*1000,
 									}
     end
 

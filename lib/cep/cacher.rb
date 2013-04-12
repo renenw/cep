@@ -50,4 +50,8 @@ class Cacher
     result
   end
 
+  def flush
+    @master.flush
+  end
+
 end

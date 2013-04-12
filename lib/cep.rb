@@ -29,6 +29,7 @@ require_relative 'cep/handlers/alarm_handlers'
 require_relative 'cep/handlers/solenoid_handlers'
 require_relative 'cep/handlers/weather_handlers'
 require_relative 'cep/handlers/grey_water_handlers'
+require_relative 'cep/handlers/cache_handlers'
 
 include Lifecycle_Handlers
 include MRTG_Handlers
@@ -43,6 +44,7 @@ include Websocket
 include Message_Logger
 include Solenoid_Handlers
 include Grey_Water_Handlers
+include Cache_Handlers
 include Cache_Warmer
 
 @mysql = Mysql2::Client.new(:host => "localhost", :username => "root", :database => "30_camp_ground_road")
@@ -111,7 +113,7 @@ def safely_handle_message(queue, message)
     handle_message(queue, message)
   rescue => e
     @log.error "Failed to process a #{queue} message because of a #{e.class.to_s} error: #{e.message}. Message: #{message}"
-    raise e
+    #raise e
   end
 end
 
@@ -136,11 +138,11 @@ def initialise_monitors
   MONITORS.each do |key, value|
     value[:name] = key.gsub(/_/, ' ').split(' ').each{|word| word.capitalize!}.join(' ') unless value[:name]
   end
-  @cache.set("monitors", MONITORS)
 end
 
 def run
   initialise_monitors
+  on_receive_clear_caches
   message_processor = Thread.new() { message_handler }
   @log.info "Started (main)"
   message_processor.join

@@ -151,4 +151,6 @@ MONITORS = {
 
   'alarm_message'       => { :monitor_type => :status },
 
+  'clear_caches'        => { :monitor_type => :administrative },
+
 }

@@ -29,9 +29,7 @@ module Alarm_Handlers
     # if the event is of low importance, push the level down
     if description =~ /(Dis)?[aA]rming[\s]+Area [\d]+/
       log_level = :info
-    end
-    if description =~ /Alarm system reporting via phone failed/
-      log_level = :info
+      log_type    = 'alarm'
     end
 
     # if a circuit has triggered, bump the event level up a notch
@@ -40,8 +38,17 @@ module Alarm_Handlers
       circuit       = description[/\d+\s*$/].strip
       zone          = ALARM_ZONE_DEFINITIONS[circuit] if ALARM_ZONE_DEFINITIONS[circuit]
       integer_value = circuit.to_i
-      log_type      = 'activation'
+      log_type      = 'alarm'
       log_message   = "#{zone} alarm sensor activated (zone #{integer_value})."
+    end
+
+    # some of the alarm messages are interesting...
+    if log_type=='notice'
+      if description =~ /system reporting via phone failed/i
+        log_level = :info
+      else
+        log_level = :error
+      end
     end
 
     if log_level == :error

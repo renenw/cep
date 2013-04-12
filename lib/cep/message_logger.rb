@@ -10,7 +10,7 @@ module Message_Logger
 			'log_level' 		=> log_level,
 			'message' 			=> message.strip,
 			'guid' 				  => payload['guid'],
-			'local_time'		=> payload['local_time'],
+			'local_time'		=> payload['local_time']*1000,
 		}
 
 		if validate?(payload)

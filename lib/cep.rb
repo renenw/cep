@@ -30,6 +30,7 @@ require_relative 'cep/handlers/solenoid_handlers'
 require_relative 'cep/handlers/weather_handlers'
 require_relative 'cep/handlers/grey_water_handlers'
 require_relative 'cep/handlers/cache_handlers'
+require_relative 'cep/handlers/access_handlers'
 
 include Lifecycle_Handlers
 include MRTG_Handlers
@@ -46,6 +47,7 @@ include Solenoid_Handlers
 include Grey_Water_Handlers
 include Cache_Handlers
 include Cache_Warmer
+include Access_Handlers
 
 @mysql = Mysql2::Client.new(:host => "localhost", :username => "root", :database => "30_camp_ground_road")
 @cache = Cacher.new('localhost:11211')
@@ -142,7 +144,7 @@ end
 
 def run
   initialise_monitors
-  on_receive_clear_caches
+  on_receive_clear_caches #if ARGV[0]=='flush_all'
   message_processor = Thread.new() { message_handler }
   @log.info "Started (main)"
   message_processor.join

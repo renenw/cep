@@ -5,14 +5,16 @@ module Lifecycle_Handlers
 	# an opportunity to rewrite messages, ditch them etc
 	# we add some very basic stuff (not that the upstream receiver would have added a timestamp)
 	def udp_message_received(payload)
-		data = payload['packet'].scan(/[\w\.]+/)
+		data = payload['packet'].split(' ', 2)
 	  if data && data[0] && MONITORS[data[0]]
 	    source_type = MONITORS[data[0]][:monitor_type]
 	    if source_type
-	      payload.merge!(
-                        { 'data_store' => DATA_STORE,
-                          'source' => data[0],
-                          'source_type' => source_type.to_s
+	    	payload_data = ( data[1] ? data[1] : '' )
+	    	payload.merge!(
+                        { 'data_store' 	=> DATA_STORE,
+                          'source' 			=> data[0],
+                          'source_type' => source_type.to_s,
+                          'data'				=> payload_data,
                          }
 	                    )
 	      payload.merge!( { 'guid' => SecureRandom.uuid } ) unless payload['guid']
@@ -57,15 +59,15 @@ module Lifecycle_Handlers
 
 	# messages should, by this point, have a basic "events" structure (source, number) with a received time that as closely as practically reflects the event time
 	def initialise_structured_message(payload)
-	  data = payload['packet'].scan(/[\w\.]+/)
-	  i = data[1].to_f.round.to_i
+	  data = payload['data']
+	  i = data.to_f.round.to_i
 	  event_time_in_utc = Time.at(payload['received'].to_f)
 	  local_time = Lifecycle_Handlers_Utils.get_local_time(SETTINGS['timezone'], event_time_in_utc)
 	  begin
-	  	@mysql.query("insert into events (source, float_value, integer_value, created_at) values ('#{data[0]}', #{data[1]}, #{i}, '#{event_time_in_utc.strftime('%Y-%m-%d %H:%M:%S.%6N')}');")
+	  	@mysql.query("insert into events (source, float_value, integer_value, created_at) values ('#{data}', #{data}, #{i}, '#{event_time_in_utc.strftime('%Y-%m-%d %H:%M:%S.%6N')}');")
 	  rescue Exception => e
 	  	p "failed"
-	  	p "insert into events (source, float_value, integer_value, created_at) values ('#{data[0]}', #{data[1]}, #{i}, '#{event_time_in_utc.strftime('%Y-%m-%d %H:%M:%S.%6N')}');"
+	  	p "insert into events (source, float_value, integer_value, created_at) values ('#{data}', #{data}, #{i}, '#{event_time_in_utc.strftime('%Y-%m-%d %H:%M:%S.%6N')}');"
 	  	throw e
 	  end
 	  event_id = @mysql.last_id
@@ -74,7 +76,7 @@ module Lifecycle_Handlers
                       'local_time' => local_time.to_f,
                       'dimensions' => Lifecycle_Handlers_Utils.get_tagged_dimensions(local_time),
                       'event_id' => event_id,
-                      'float_value' => data[1].to_f,
+                      'float_value' => data.to_f,
                       'integer_value' => i
                     }
 	                )

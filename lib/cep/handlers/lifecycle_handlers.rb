@@ -64,10 +64,10 @@ module Lifecycle_Handlers
 	  event_time_in_utc = Time.at(payload['received'].to_f)
 	  local_time = Lifecycle_Handlers_Utils.get_local_time(SETTINGS['timezone'], event_time_in_utc)
 	  begin
-	  	@mysql.query("insert into events (source, float_value, integer_value, created_at) values ('#{data}', #{data}, #{i}, '#{event_time_in_utc.strftime('%Y-%m-%d %H:%M:%S.%6N')}');")
+	  	@mysql.query("insert into events (source, float_value, integer_value, created_at) values ('#{payload['source']}', #{data}, #{i}, '#{event_time_in_utc.strftime('%Y-%m-%d %H:%M:%S.%6N')}');")
 	  rescue Exception => e
 	  	p "failed"
-	  	p "insert into events (source, float_value, integer_value, created_at) values ('#{data}', #{data}, #{i}, '#{event_time_in_utc.strftime('%Y-%m-%d %H:%M:%S.%6N')}');"
+	  	p "insert into events (source, float_value, integer_value, created_at) values ('#{payload['source']}', #{data}, #{i}, '#{event_time_in_utc.strftime('%Y-%m-%d %H:%M:%S.%6N')}');"
 	  	throw e
 	  end
 	  event_id = @mysql.last_id

@@ -114,8 +114,29 @@ def safely_handle_message(queue, message)
   begin
     handle_message(queue, message)
   rescue => e
-    @log.error "Failed to process a #{queue} message because of a #{e.class.to_s} error: #{e.message}. Message: #{message}"
+    log_handler_failure(queue, message, e)
     #raise e
+  end
+end
+
+def log_handler_failure(queue, message, e)
+  begin
+    @log.error "Failed to process a #{queue} message because of a #{e.class.to_s} error: #{e.message}. Message: #{message}"
+    payload = JSON.parse(message)
+    data = {
+                         'local_time' => Time.now.to_i*1000,
+                         'reading' => payload['converted_value'],
+                         'source' => payload['source'],
+                         'payload' => payload.select { |k, v| k!='dimensions'  },
+                         'error_message' => e.message,
+                         'error_class' => e.class.to_s,
+                         'error_backtrace' => e.backtrace[0,3].join("<br/>"),
+                         'queue' => queue,
+
+            }
+    @cache.array_append("#{payload['data_store']}.failure_log", data, ANOMOLOUS_READING_HISTORY)
+  rescue => f
+    p 'Failure logging failure: #{f}'
   end
 end
 

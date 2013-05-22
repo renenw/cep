@@ -34,6 +34,8 @@ LOG_FILE            = '/home/renen/cep.log'
 
 SMS_RECIPIENT_LIST  = '27833939595,27832536857'
 
+RAINY_DAY_PRECIPITATION_THRESHOLD = 5.0
+
 SETTINGS = {
   'timezone' => 'Africa/Johannesburg'
 }
@@ -128,6 +130,36 @@ MONITORS = {
                                             }
                             },
   'temperature_pool'    => { :monitor_type => :gauge, :range => { :min => 0, :max => 40}, :expected_frequency => 300, :suffix => TEMPERATURE_SUFFIX, :websocket => { :reading => true } },
+
+  'precipitation'       => { 
+                              :monitor_type => :gauge, 
+                              :expected_frequency => 3600, 
+                              :suffix => ' mm',
+                            },
+  'precipitation_t0'    => { 
+                              :monitor_type       => :gauge, 
+                              :expected_frequency => 3600, 
+                              :suffix             => ' mm',
+                              :name               => 'Rainfall - Next 24 hours',
+                            },
+  'precipitation_t1'    => { 
+                              :monitor_type       => :gauge, 
+                              :expected_frequency => 3600, 
+                              :suffix             => ' mm',
+                              :name               => 'Rainfall - 24 to 48 hours time',
+                            },
+  'precipitation_t2'    => { 
+                              :monitor_type       => :gauge, 
+                              :expected_frequency => 3600, 
+                              :suffix             => ' mm',
+                              :name               => 'Rainfall - 48 to 72 hours time',
+                            },
+  'rainy_day'           => { 
+                              :monitor_type       => :switch, 
+                              :expected_frequency => 3600,
+                              :name               => 'Rain Forecast?',
+                            },
+
   'bandwidth'           => { :monitor_type => :mrtg, :expected_frequency => 60  },
   'bandwidth_in'        => { :monitor_type => :pulse, :range => { :min => 0, :max => Infinity}, :expected_frequency => 60, :suffix => ' bits' },
   'bandwidth_out'       => { :monitor_type => :pulse, :range => { :min => 0, :max => Infinity}, :expected_frequency => 60, :suffix => ' bits' },

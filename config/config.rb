@@ -157,7 +157,7 @@ MONITORS = {
   'rainy_day'           => { 
                               :monitor_type       => :switch, 
                               :expected_frequency => 3600,
-                              :name               => 'Rain Forecast?',
+                              :name               => 'Is it wet?',
                             },
 
   'bandwidth'           => { :monitor_type => :mrtg, :expected_frequency => 60  },

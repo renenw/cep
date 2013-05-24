@@ -28,6 +28,8 @@ TEMPERATURE_SUFFIX  = '&deg; C'
 WATT_HOURS          = ' wh<sup>-1</sup>'
 BPS                 = ' bs<sup>-1</sup>'
 
+API_DOMAIN          = '192.168.0.252'
+API_PORT            = 3000
 OW_HTTP_ROOT_URL    = 'http://192.168.0.252:2121'
 
 LOG_FILE            = '/home/renen/cep.log'
@@ -174,17 +176,17 @@ MONITORS = {
   'bandwidth_qos'       => { :monitor_type => :gauge, :expected_frequency => 86400 },
   'weather_forecast'    => { :monitor_type => :keep_alive, :name => 'Weather Forecast', :expected_frequency => 60*60*24 },
 
-  'pond_ferns'          => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.0', :websocket => { :reading => true },  :name => 'Pond fern misters' },
-  'front_misters'       => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.1', :websocket => { :reading => true },  :name => 'Front garden misters' },
-  'front'               => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.2', :websocket => { :reading => true },  :name => 'Front garden irrigation' },
-  'front_fynbos'        => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.3', :websocket => { :reading => true },  :name => 'Front fynbos beds irrigation' },
-  'outhouse_lawn'       => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.4', :websocket => { :reading => true },  :name => 'Outhouse lawn irrigation' },
-  'driveway'            => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.5', :websocket => { :reading => true },  :name => 'Driveway irrigation' },
-  'vegetable_patch'     => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.6', :websocket => { :reading => true },  :name => 'Vegetable Patch irrigation' },
-  'jungle_gym'          => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.7', :websocket => { :reading => true },  :name => 'Jungle Gym irrigation' },
-  'pool_beds'           => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.0', :websocket => { :reading => true },  :name => 'Pool flower bed irrigation' },
-  'pool_lawn'           => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.1', :websocket => { :reading => true },  :name => 'Pool Lawn irrigation' },
-  'pool'                => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.6', :websocket => { :reading => true },  :name => 'Pool top-up' },
+  'pond_ferns'          => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.0', :websocket => { :reading => true }, :name => 'Pond fern misters', :run_when_wet => true },
+  'front_misters'       => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.1', :websocket => { :reading => true }, :name => 'Front garden misters', :run_when_wet => true },
+  'front'               => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.2', :websocket => { :reading => true }, :name => 'Front garden irrigation' },
+  'front_fynbos'        => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.3', :websocket => { :reading => true }, :name => 'Front fynbos beds irrigation' },
+  'outhouse_lawn'       => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.4', :websocket => { :reading => true }, :name => 'Outhouse lawn irrigation' },
+  'driveway'            => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.5', :websocket => { :reading => true }, :name => 'Driveway irrigation', :run_when_wet => true },
+  'vegetable_patch'     => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.6', :websocket => { :reading => true }, :name => 'Vegetable Patch irrigation' },
+  'jungle_gym'          => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.7', :websocket => { :reading => true }, :name => 'Jungle Gym irrigation' },
+  'pool_beds'           => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.0', :websocket => { :reading => true }, :name => 'Pool flower bed irrigation' },
+  'pool_lawn'           => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.1', :websocket => { :reading => true }, :name => 'Pool Lawn irrigation' },
+  'pool'                => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.6', :websocket => { :reading => true }, :name => 'Pool top-up' },
 
   'alarm_message'       => { :monitor_type => :status },
 

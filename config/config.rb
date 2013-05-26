@@ -138,6 +138,12 @@ MONITORS = {
                               :expected_frequency => 3600, 
                               :suffix => ' mm',
                             },
+  'precipitation_tx'    => { 
+                              :monitor_type       => :gauge, 
+                              :expected_frequency => 3600, 
+                              :suffix             => ' mm',
+                              :name               => 'Rainfall - Preceding 24 hours',
+                            },
   'precipitation_t0'    => { 
                               :monitor_type       => :gauge, 
                               :expected_frequency => 3600, 
@@ -155,6 +161,12 @@ MONITORS = {
                               :expected_frequency => 3600, 
                               :suffix             => ' mm',
                               :name               => 'Rainfall - 48 to 72 hours time',
+                            },
+  'precipitation_3h'    => { 
+                              :monitor_type       => :gauge, 
+                              :expected_frequency => 3600, 
+                              :suffix             => ' mm',
+                              :name               => 'Rainfall - next 3 hours',
                             },
   'rainy_day'           => { 
                               :monitor_type       => :switch, 

@@ -63,7 +63,6 @@ def retrieve_forecast()
 end
 
 def publish(type, message)
-	#p "#{type} #{message.to_json}"
 	socket = UDPSocket.new
 	socket.send("#{type} #{message.to_json}", 0, UMMP_IP, UMMP_PORT)
 end
@@ -74,23 +73,31 @@ def get_precipitation_forecast
 
 	precipitation_forecast = []
 	rainfall_forecast			 = [0.0,0.0,0.0]
+	next_three_hours			 = 0.0
 
 	first = Time.now.to_i + 24*60*60*5
+
+	# find the earliest start time, get forecast for earliest time, and collect three hourly precipitation forecasts
 	forecast.each_value do |f|
 		if f['precipitation'] && f['duration']==3
 			precipitation_forecast << f
-			first = f['start'] if f['start'] < first
+			if f['start'] < first
+				first = f['start']
+				next_three_hours = f['precipitation'].to_f
+			end
 		end
 	end
 
+	# now collect and group into days
 	precipitation_forecast.each do |f|
 		period = (f['start'] - first) / (24*60*60)
 		rainfall_forecast[period] += f['precipitation'].to_f if period < 3
 	end
 
 	{
-		'precipitation' => rainfall_forecast,
-		'start'					=> first
+		'precipitation' 		=> rainfall_forecast,
+		'start'							=> first,
+		'next_three_hours'  => next_three_hours
 	}
 
 end

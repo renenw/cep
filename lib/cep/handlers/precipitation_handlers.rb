@@ -9,8 +9,9 @@ module Precipitation_Handlers
 		is_it_wet = 0
 
 		# look forwards
-		is_it_wet = 1 if (precipitation[0] > RAINY_DAY_PRECIPITATION_THRESHOLD)
-
+		is_it_wet = 1 if precipitation[0] > RAINY_DAY_PRECIPITATION_THRESHOLD
+		is_it_wet = 1 if (precipitation[0] + precipitation[1] + precipitation[2]) > RAINY_DAY_PRECIPITATION_THRESHOLD * 2
+		
 		# now look backwards
 		_24hour_precipitation = nil
 		_48hour_precipitation = nil
@@ -24,15 +25,15 @@ module Precipitation_Handlers
 		if history
 			# most recent is at end, ie, oldest is first. ie, we want the first entry < 24 hours old
 			history.each do |d|
-				_24hour_precipitation = d['converted_value']if d['local_time'].to_i > _24hours_ago && _24hour_precipitation.nil?
-				_48hour_precipitation = d['converted_value']if d['local_time'].to_i > _48hours_ago && _48hour_precipitation.nil?
-				_72hour_precipitation = d['converted_value']if d['local_time'].to_i > _72hours_ago && _72hour_precipitation.nil?
+				_24hour_precipitation = d['converted_value'] if d['local_time'].to_i > _24hours_ago && _24hour_precipitation.nil?
+				_48hour_precipitation = d['converted_value'] if d['local_time'].to_i > _48hours_ago && _48hour_precipitation.nil?
+				_72hour_precipitation = d['converted_value'] if d['local_time'].to_i > _72hours_ago && _72hour_precipitation.nil?
 			end
 		end
 		
 		is_it_wet = 1 if _24hour_precipitation > RAINY_DAY_PRECIPITATION_THRESHOLD
 		is_it_wet = 1 if (_72hour_precipitation + _48hour_precipitation + _24hour_precipitation) > RAINY_DAY_PRECIPITATION_THRESHOLD * 2
-
+		
 		t_next 	= { 'received' => payload['received'], 'packet' => "precipitation_3h #{detail['next_three_hours']}" }.to_json
 		tv   		= { 'received' => payload['received'], 'packet' => "precipitation_tv #{_72hour_precipitation}" }.to_json
 		tw   		= { 'received' => payload['received'], 'packet' => "precipitation_tw #{_48hour_precipitation}" }.to_json

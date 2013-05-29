@@ -21,6 +21,7 @@ module Solenoid_Handlers
 			if changed
 	      log_message 'solenoid', (off ? :error : :info), message, payload
 	      tweet       message, payload['guid']
+	      broadcast_message_to_websockets 'solenoid', message, payload if off
 	    end
   	end
 

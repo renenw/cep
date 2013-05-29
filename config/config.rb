@@ -220,4 +220,7 @@ MONITORS = {
 
   'clear_caches'        => { :monitor_type => :administrative },
 
+  'switch_on'           => { :monitor_type => :administrative },
+  'switch_off'          => { :monitor_type => :administrative },
+
 }

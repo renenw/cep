@@ -27,11 +27,11 @@ require_relative 'cep/handlers/reading_handlers'
 require_relative 'cep/handlers/bandwidth_handlers'
 require_relative 'cep/handlers/alarm_handlers'
 require_relative 'cep/handlers/solenoid_handlers'
-require_relative 'cep/handlers/weather_handlers'
 require_relative 'cep/handlers/grey_water_handlers'
 require_relative 'cep/handlers/cache_handlers'
 require_relative 'cep/handlers/access_handlers'
 require_relative 'cep/handlers/precipitation_handlers'
+require_relative 'cep/handlers/switch_handlers'
 
 include Lifecycle_Handlers
 include MRTG_Handlers
@@ -41,7 +41,6 @@ include Bandwidth_Handlers
 include Alarm_Handlers
 include Tweet
 include SMS
-include Weather_Handlers
 include Websocket
 include Message_Logger
 include Solenoid_Handlers
@@ -50,6 +49,7 @@ include Cache_Handlers
 include Cache_Warmer
 include Access_Handlers
 include Precipitation_Handlers
+include Switch_Handlers
 
 @mysql = Mysql2::Client.new(:host => "localhost", :username => "root", :database => "30_camp_ground_road")
 @cache = Cacher.new('localhost:11211')

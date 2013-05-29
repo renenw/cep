@@ -3,6 +3,10 @@ module Message_Logger
   LOG_LEVELS = [:trace, :debug, :info, :warn, :error]
 
 	def log_message(message_type, log_level, message, payload)
+		
+		local_time = payload['local_time']
+		local_time = CEP_Utils.get_local_time(SETTINGS['timezone'], Time.now).to_i unless local_time
+
 		payload = {
 			'data_store'		=> payload['data_store'],
 			'source' 	 		  => payload['source'],
@@ -10,7 +14,7 @@ module Message_Logger
 			'log_level' 		=> log_level,
 			'message' 			=> message.strip,
 			'guid' 				  => payload['guid'],
-			'local_time'		=> payload['local_time']*1000,
+			'local_time'		=> local_time*1000,
 		}
 
 		if validate?(payload)

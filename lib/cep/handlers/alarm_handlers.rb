@@ -53,9 +53,9 @@ module Alarm_Handlers
 
     if log_level == :error
 	    broadcast_message_to_websockets log_type, log_message, payload
-			tweet                           log_message,   payload['guid']
+			tweet                           log_message, payload['guid']
 		end
-		log_message                     log_type, log_level, log_message, payload
+		log_message log_type, log_level, log_message, payload
 
 		nil
 	end

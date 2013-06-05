@@ -36,7 +36,7 @@ LOG_FILE            = '/home/renen/cep.log'
 
 SMS_RECIPIENT_LIST  = '27833939595,27832536857'
 
-RAINY_DAY_PRECIPITATION_THRESHOLD = 5.0
+RAINY_DAY_PRECIPITATION_THRESHOLD = 2.5
 
 SETTINGS = {
   'timezone' => 'Africa/Johannesburg'

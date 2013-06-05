@@ -22,17 +22,21 @@ module Precipitation_Handlers
 		_72hours_ago = CEP_Utils.get_local_time(SETTINGS['timezone'], Time.now.to_i-72*60*60) * 1000
 
 		history   = @cache.get("#{payload['data_store']}.history.precipitation_t0")
+		
 		if history
 			# most recent is at end, ie, oldest is first. ie, we want the first entry < 24 hours old
 			history.each do |d|
+				#p "#{Time.at(d['local_time'].to_i/1000)} #{d['converted_value']}: #{_24hour_precipitation}; #{_48hour_precipitation}; #{_72hour_precipitation}"
 				_24hour_precipitation = d['converted_value'] if d['local_time'].to_i > _24hours_ago && _24hour_precipitation.nil?
 				_48hour_precipitation = d['converted_value'] if d['local_time'].to_i > _48hours_ago && _48hour_precipitation.nil?
 				_72hour_precipitation = d['converted_value'] if d['local_time'].to_i > _72hours_ago && _72hour_precipitation.nil?
 			end
 		end
-		
-		is_it_wet = 1 if _24hour_precipitation > RAINY_DAY_PRECIPITATION_THRESHOLD
-		is_it_wet = 1 if (_72hour_precipitation + _48hour_precipitation + _24hour_precipitation) > RAINY_DAY_PRECIPITATION_THRESHOLD * 2
+
+		is_it_wet = 1 if !_24hour_precipitation.nil? && _24hour_precipitation > RAINY_DAY_PRECIPITATION_THRESHOLD
+		if !_72hour_precipitation.nil? && !_48hour_precipitation.nil? && !_24hour_precipitation.nil?
+			is_it_wet = 1 if (_72hour_precipitation + _48hour_precipitation + _24hour_precipitation) > RAINY_DAY_PRECIPITATION_THRESHOLD * 2
+		end
 		
 		t_next 	= { 'received' => payload['received'], 'packet' => "precipitation_3h #{detail['next_three_hours']}" }.to_json
 		tv   		= { 'received' => payload['received'], 'packet' => "precipitation_tv #{_72hour_precipitation}" }.to_json

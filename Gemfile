@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem "json", "~> 1.6.3"
+#gem "json"
 gem "amqp", "~> 0.8.4"
 gem 'mysql2'
 gem 'dalli'

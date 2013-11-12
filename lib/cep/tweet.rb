@@ -17,9 +17,9 @@ module Tweet
 
 	def send_tweet(payload)
 		begin
-			@log.debug('Tweeting', :guid => payload['guid']) do 
-				@log.debug 'Tweeted', :guid => payload['guid'], :payload => Twitter.update(format_message(payload['message']))
-			end
+			#@log.debug('Tweeting', :guid => payload['guid']) do 
+			#	@log.debug 'Tweeted', :guid => payload['guid'], :payload => Twitter.update(format_message(payload['message']))
+			#end
 		rescue Twitter::Error::Forbidden => e
 			p "Twitter call failed: #{e}"
 		end

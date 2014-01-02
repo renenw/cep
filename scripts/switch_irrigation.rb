@@ -15,7 +15,7 @@ def should_we_flick_the_switch?(target, target_state)
 	answer = true
 	if valid_target?(target)
 		unless MONITORS[target][:run_when_wet]
-			answer = is_it_wet? if target_state.downcase=='on'
+			answer = !is_it_wet? if target_state.downcase=='on'
 		end
 	end
 	answer

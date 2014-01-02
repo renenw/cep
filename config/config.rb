@@ -29,7 +29,7 @@ WATT_HOURS          = ' wh<sup>-1</sup>'
 BPS                 = ' bs<sup>-1</sup>'
 
 API_DOMAIN          = '192.168.0.252'
-API_PORT            = 3000
+API_PORT            = 8080
 OW_HTTP_ROOT_URL    = 'http://192.168.0.252:2121'
 
 LOG_FILE            = '/home/renen/cep.log'

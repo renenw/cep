@@ -131,7 +131,13 @@ MONITORS = {
                                               }
                                             }
                             },
-  'temperature_pool'    => { :monitor_type => :gauge, :range => { :min => 0, :max => 40}, :expected_frequency => 300, :suffix => TEMPERATURE_SUFFIX, :websocket => { :reading => true } },
+  'temperature_pool'    => { 
+                              :monitor_type => :gauge, 
+                              :range => { :min => 0, :max => 40},
+                              :expected_frequency => 300,
+                              :suffix => TEMPERATURE_SUFFIX,
+                              :websocket => { :reading => true }
+                            },
 
   'precipitation'       => { 
                               :monitor_type => :gauge, 

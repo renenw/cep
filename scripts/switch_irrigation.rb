@@ -8,7 +8,7 @@ include Switch_Base
 def is_it_wet?
 	http = Net::HTTP.new(API_DOMAIN, API_PORT)
 	response = http.request_head('/api/30_camp_ground_road/is_it_wet?')
-	(response['status']=='200')
+	(response['status']=~/200/ ? false : true)
 end
 
 def should_we_flick_the_switch?(target, target_state)

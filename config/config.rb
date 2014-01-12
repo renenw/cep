@@ -219,7 +219,7 @@ MONITORS = {
   'pool_beds'               => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.0', :websocket => { :reading => true }, :name => 'Pool flower bed irrigation' },
   'pool_lawn'               => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.1', :websocket => { :reading => true }, :name => 'Pool Lawn irrigation' },
   'pool'                    => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.6', :websocket => { :reading => true }, :name => 'Pool top-up', :run_when_wet => true },
-  'front-lawn'              => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.7', :websocket => { :reading => true }, :name => 'Front lawn irrigation' },
+  'front_lawn'              => { :monitor_type => :solenoid, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/PIO.7', :websocket => { :reading => true }, :name => 'Front lawn irrigation' },
 
   'alarm_message'           => { :monitor_type => :status },
 

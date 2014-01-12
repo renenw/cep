@@ -200,7 +200,7 @@ MONITORS = {
   'alarm_alive'             => { :monitor_type => :keep_alive, :name => 'Alarm Keep Alive', :expected_frequency => 60*60 },
   'alarm_armed'             => { :monitor_type => :switch },
   'alarm_activated'         => { :monitor_type => :switch },
-  'grey_water_flooded'      => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.7' },
+  'grey_water_flooded'      => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.4' },
   'basement_sump_flooded'   => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.5' },
   'bandwidth_throughput'    => { :monitor_type => :gauge, :expected_frequency => 86400 },
   'bandwidth_bps'           => { :monitor_type => :gauge, :expected_frequency => 86400, :suffix => BPS },

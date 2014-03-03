@@ -3,6 +3,7 @@ require 'pp'
 
 FIELDS 					= %w(posted_date transaction_date description debits credits balance)
 SPLITTER				= /(?<account>[\w^\d]+);(?<posted_date>\d+);(?<transaction_date>\d+);(?<description>.+?);(?<debit>[\d\.]*?);(?<credit>[\d\.]*?)/
+#SPLITTER				= /(?<posted_date>[\d\/]+?),(?<transaction_date>[\d\/]+?),\"(?<description>.+?)\",(?<debit>[\d\.]*?),(?<credit>[\d\.]*?),/
 #CLASSIFICATIONS = [:personal, :household, :security, :water, :electricity, :rates, :petrol, :car_maintenance, :cash_withdrawl, :books]
 
 SPAIN_HOLIDAY_DATES 				= Date.new(2011,6,9)..Date.new(2011,6,17)
@@ -13,8 +14,9 @@ def parse(line)
 	r = SPLITTER.match(line)
 	if r
 		transaction = Hash[ r.names.zip( r.captures ) ]
-		d = transaction['transaction_date'].split("/")
-		transaction['transaction_date'] = Date.new(d[0].to_i,d[1].to_i,d[2].to_i)
+		#d = transaction['transaction_date'].split("/")
+		#transaction['transaction_date'] = Date.new(d[0].to_i,d[1].to_i,d[2].to_i)
+		transaction['transaction_date'] = DateTime.new(1899,12,30) + transaction['transaction_date'].to_i
 	end
 	transaction
 end

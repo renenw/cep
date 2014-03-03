@@ -149,7 +149,7 @@ end
 
 def load_transactions
 	transactions = []
-	File.open("banking_transactions/201305302107", "r").each_line do |line|
+	File.open("merged_20140303.csv", "r").each_line(separator = "\r") do |line|
 		t = parse(line)
 		transactions << t if t
 	end

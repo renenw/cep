@@ -2,7 +2,7 @@ require 'date'
 require 'pp'
 
 FIELDS 					= %w(posted_date transaction_date description debits credits balance)
-SPLITTER				= /(?<posted_date>[\d\/]+?),(?<transaction_date>[\d\/]+?),\"(?<description>.+?)\",(?<debit>[\d\.]*?),(?<credit>[\d\.]*?),/
+SPLITTER				= /(?<account>[\w^\d]+);(?<posted_date>\d+);(?<transaction_date>\d+);(?<description>.+?);(?<debit>[\d\.]*?);(?<credit>[\d\.]*?)/
 #CLASSIFICATIONS = [:personal, :household, :security, :water, :electricity, :rates, :petrol, :car_maintenance, :cash_withdrawl, :books]
 
 SPAIN_HOLIDAY_DATES 				= Date.new(2011,6,9)..Date.new(2011,6,17)

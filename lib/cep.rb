@@ -167,7 +167,7 @@ end
 
 def run
   initialise_monitors
-  on_receive_clear_caches if ARGV[0]=='flush_all'
+  on_receive_clear_caches # if ARGV[0]=='flush_all'
   message_processor = Thread.new() { message_handler }
   @log.info "Started (main)"
   message_processor.join

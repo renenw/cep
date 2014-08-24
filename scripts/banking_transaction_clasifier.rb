@@ -188,8 +188,9 @@ transactions.each do |t|
 	classified 		+= 1 if classification
 	classifiable 	+= 1 if @transaction
 
-	p line 				 unless @transaction
-	p @transaction if @transaction && classification.nil? && failed > 120 && failed < 180
+p classification
+
+#	p @transaction if @transaction && classification.nil? && failed > 120 && failed < 180
 	failed += 1    if @transaction.nil? || classification.nil?
 
 end

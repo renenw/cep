@@ -200,7 +200,7 @@ udp
     => by default, initialise_structured_message (initialise_structured_message): messages should, by this point, have a basic "events" structure (source, number) with a received time that as closely as practically reflects the event time
       => if :pulse, pulse (handle_pulse): converted_value set to watt_hours since last reading (by implication, only handles watt_hours)
         => reading
-      => if :gauge, gauge (handle_gauge): converted_value set to "float value"
+      => if :gauge, gauge (handle_ga/Users/renen/Workspace/cep/config/config.rbuge): converted_value set to "float value"
         => reading
       => if :counter, counter (handle_gauge)
         => reading

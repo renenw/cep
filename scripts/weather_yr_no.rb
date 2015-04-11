@@ -8,7 +8,7 @@ require_relative '../config/config'
 @log   	= Log_Wrapper.new( File.join(File.dirname(__FILE__), 'log.txt') )
 
 
-FORECAST_URL = 'http://api.yr.no/weatherapi/locationforecast/1.8/?lat=-33.95283;lon=18.48056'
+FORECAST_URL = 'http://api.yr.no/weatherapi/locationforecast/1.9/?lat=-33.95283;lon=18.48056'
 
 # resultant xml includes three types of node:
 # precipitation forecasts, containing only a precipitation element (node) with a three hour window. Three hourly, for the next three days.

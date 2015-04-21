@@ -67,10 +67,9 @@ def publish(type, message)
 	socket.send("#{type} #{message.to_json}", 0, UMMP_IP, UMMP_PORT)
 end
 
-def get_precipitation_forecast
-	# for now, I am only interested in the forecast level of precipitation over the next 24, 48 and 72 hours.
-	forecast 	= retrieve_forecast
-
+# for now, I am only interested in the forecast level of precipitation over the next 24, 48 and 72 hours.
+def get_precipitation_forecast(forecast)
+	
 	precipitation_forecast = []
 	rainfall_forecast			 = [0.0,0.0,0.0]
 	next_three_hours			 = 0.0
@@ -102,6 +101,23 @@ def get_precipitation_forecast
 
 end
 
+def get_weather_forecast(forecast)
+
+	weather_forecast   = []
+
+	first = Time.now.to_i + 24*60*60*5
+	forecast.each_value do |f|
+		if f['temperature']
+			weather_forecast << f
+			first = f['start'] if f['start'] < first
+		end
+	end
+
+	p first
+	p weather_forecast
+
+end
+
 def test
 	forecast = retrieve_forecast
 	forecast.each_value do |f|
@@ -109,12 +125,21 @@ def test
 		stop  = Time.parse(f['to']).to_i
 		p "#{(f['precipitation'] ? 'p' : 'w')}#{f['duration']} #{start} #{f['from']} #{f['to']} #{(f['precipitation'] ? f['precipitation'] + "mm" : f['temperature'] + 'C')}"
 	end
+	p "******"
+	x = get_weather_forecast(forecast)
+	x.sort! do |a, b|
+		a['start'] <=> b['start']
+	end
+	x.each do |y|
+		p "#{y['start']} ==> #{y['from']} #{y['to']}"
+	end
 end
 
 def run
 	rainfall_forecast = nil
 	@log.debug("Retrieve precipitation forecast") do
-		rainfall_forecast = get_precipitation_forecast
+		forecast 						= retrieve_forecast
+		rainfall_forecast 	= get_precipitation_forecast(forecast)
 	end
 	publish('precipitation', rainfall_forecast) if rainfall_forecast
 end

@@ -6,7 +6,8 @@ module Access_Handlers
 
     broadcast_message_to_websockets 'access', message, payload
     log_message 'access', :error, message, payload
-    #tweet       message, payload['guid']
+
+    sms "Sniper entry", payload['guid'] if payload['data'].capitalize=='Sniper'
 
 	  nil
 

@@ -196,16 +196,23 @@ MONITORS = {
   'bandwidth_in'            => { :monitor_type => :pulse, :range => { :min => 0, :max => Infinity}, :expected_frequency => 60, :suffix => ' bits' },
   'bandwidth_out'           => { :monitor_type => :pulse, :range => { :min => 0, :max => Infinity}, :expected_frequency => 60, :suffix => ' bits' },
   'bandwidth_total'         => { :monitor_type => :pulse, :range => { :min => 0, :max => Infinity}, :expected_frequency => 60, :suffix => ' bits' },
+
   'outlier'                 => { :monitor_type => :counter },
+
   'alarm_alive'             => { :monitor_type => :keep_alive, :name => 'Alarm Keep Alive', :expected_frequency => 60*60 },
   'alarm_armed'             => { :monitor_type => :switch },
   'alarm_activated'         => { :monitor_type => :switch },
+
   'grey_water_flooded'      => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.4' },
   'basement_sump_flooded'   => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.5' },
+
   'bandwidth_throughput'    => { :monitor_type => :gauge, :expected_frequency => 86400 },
   'bandwidth_bps'           => { :monitor_type => :gauge, :expected_frequency => 86400, :suffix => BPS },
   'bandwidth_qos'           => { :monitor_type => :gauge, :expected_frequency => 86400 },
+
   'weather_forecast'        => { :monitor_type => :keep_alive, :name => 'Weather Forecast', :expected_frequency => 60*60*24 },
+
+  'temperature_pool_alive'  => { :monitor_type => :keep_alive, :name => 'Pool Temperature Alive', :expected_frequency => 60*3 },
 
   'pond_ferns'              => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.0', :websocket => { :reading => true }, :name => 'Pond fern misters', :run_when_wet => true },
   'front_misters'           => { :monitor_type => :solenoid, :ow_path => '/1F.DAE703000000/main/29.23F907000000/PIO.1', :websocket => { :reading => true }, :name => 'Front garden misters', :run_when_wet => true },

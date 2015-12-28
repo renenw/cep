@@ -191,6 +191,11 @@ MONITORS = {
                               :expected_frequency => 3600,
                               :name               => 'Is it wet?',
                             },
+  'pool_level'          => { 
+                              :monitor_type       => :switch, 
+                              :expected_frequency => 300,
+                              :name               => 'Is the pool full?',
+                            },
 
   'bandwidth'               => { :monitor_type => :mrtg, :expected_frequency => 60  },
   'bandwidth_in'            => { :monitor_type => :pulse, :range => { :min => 0, :max => Infinity}, :expected_frequency => 60, :suffix => ' bits' },
@@ -203,6 +208,7 @@ MONITORS = {
   'alarm_armed'             => { :monitor_type => :switch },
   'alarm_activated'         => { :monitor_type => :switch },
 
+  'pool_water_level'        => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.3' },
   'grey_water_flooded'      => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.4' },
   'basement_sump_flooded'   => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.5' },
 

@@ -203,6 +203,8 @@ MONITORS = {
   'alarm_armed'             => { :monitor_type => :switch },
   'alarm_activated'         => { :monitor_type => :switch },
 
+  'switcher_alive'          => { :monitor_type => :keep_alive, :name => 'Pool Water Level Sensor Alive', :expected_frequency => 60*3 },
+  'pool_water_level'        => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.3' },
   'grey_water_flooded'      => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.4' },
   'basement_sump_flooded'   => { :monitor_type => :switch, :ow_path => '/1F.ECE103000000/main/29.CC4208000000/latch.5' },
 

@@ -50,6 +50,44 @@ To recap, the UDP packet is received by the handler. It is rewritten by udp_mess
 
 From this point forward, it is assumed that the data contained in the UDP payload is a single numeric value (0 or 1 in the case of a switch, or an integer or float value of some description). initialise_structured_message writes the data to the events table, and augments the structure with dimensions.
 
+specifically
+============
+
+* the data structure passed through the message chain
+
+Payload is gradually augmented.
+
+udp adds the time the packet was received
+udp_handler (handle_udp):
+  1. kills badly structured messages
+  2. records unkown (ie, not in config.rb) monitors in a dead-letter-list,
+  3. for valid messages, a data_store (location) is added, a local time is added, and the message is sent on to initialise_structured_message
+  4. if the message is a mrtg message, it is sent to handle_mrtg_pre_processing
+the various handle_xxxx handlers add a "converted_value" entry that is the result of assessing the value received in the payload
+
+the handle_xxx adds a "converted_value" entry that reflects the value to be used by subsequent operations.
+  
+* the queue flow
+
+udp
+  => udp_handler (handle_udp): an opportunity to rewrite messages, ditch them etc
+    => by default, initialise_structured_message (initialise_structured_message): messages should, by this point, have a basic "events" structure (source, number) with a received time that as closely as practically reflects the event time
+      => if :pulse, pulse (handle_pulse): converted_value set to watt_hours since last reading (by implication, only handles watt_hours)
+        => reading
+      => if :gauge, gauge (handle_ga/Users/renen/Workspace/cep/config/config.rbuge): converted_value set to "float value"
+        => reading
+      => if :counter, counter (handle_gauge)
+        => reading
+    => if :mrtg, handle_mrtg_pre_processing: which pushes out three new entries - bandwidth in, out and total - but does not pass itsel along for further processing (it commits suicide)
+ 
+  reading (handle_reading): saves the entry into the "readings" table and pushes the reading out into the fan out exchange
+    => handle_summarisation: updates the summary data with this reading (eg, quarterly total, max, min etc)
+    => handle_history: keeps a recent set of entries around in the cache (eg 200)
+    => handle_calculate_outlier_threshold: for pulse meters, updates the cache with outlier thresholds (if relevant)
+    => handle_cache_reading: pushes the latest reading into memcache
+    => handle_cache_sources: makes sure the list of known sources (used by the js) is up-to-date
+
+
 Database Structures
 ===================
 
@@ -83,7 +121,7 @@ history   = @cache.get("30_camp_ground_road.history.pool_water_level")
 
 # make a decision using that history
 one_hour_ago = (CEP_Utils.get_local_time(SETTINGS['timezone'], Time.now.to_i - (60 * 60) )) * 1000
-level_too_low = history[-5,5].select{ |h| h['local_time']>one_hour_ago }.select{ |h| h['converted_value']==1 }.empty?
+level_too_low = history[-5,5].select{ |h| h['local_time']>one_hour_ago }.select{ |h| h['reading']==1 }.empty?
 
 # publish the result
 deep_enough = { 'received' => payload['received'], 'packet' => "pool_deep_enough #{(level_too_low ? 0 : 1)}" }.to_json

@@ -12,7 +12,7 @@ module Pool_Handlers
   
     @exchange.publish deep_enough,   :routing_key => 'udp_message_received'
 
-    nil
+    true
   end
 
 end

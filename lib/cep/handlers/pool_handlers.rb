@@ -8,7 +8,7 @@ module Pool_Handlers
     # most recent is at end, ie, oldest is first. we want the last five entries, and they should all be less than 1 hour old
     level_too_low = history[-5,5].select{ |h| h['local_time']>one_hour_ago }.select{ |h| h['converted_value']==1 }.empty?
 
-    deep_enough = { 'received' => Time.now.to_f, 'packet' => "pool_deep_enough #{(level_too_low ? 0 : 1)}" }.to_json
+    deep_enough = { 'received' => payload['received'], 'packet' => "pool_deep_enough #{(level_too_low ? 0 : 1)}" }.to_json
   
     @exchange.publish deep_enough,   :routing_key => 'udp_message_received'
 

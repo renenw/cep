@@ -2,13 +2,13 @@ module Switch_Handlers
 
 	def on_receive_switch_on(payload)
 		# "packet"=>"switch_on vegetable_patch"
-		switch_the_switch payload, 'on'
+		# switch_the_switch payload, 'on'
 	  nil
 	end
 
 	def on_receive_switch_off(payload)
 		# "packet"=>"switch_off vegetable_patch"
-		switch_the_switch payload, 'off'
+		# switch_the_switch payload, 'off'
 	  nil
 	end
 

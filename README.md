@@ -10,6 +10,11 @@ cep.rb:            the main processor of messages
 ummp.rb:           the udp listener
 ow_temperature.rb: reads a 1wire thermometer and pushes the result into rabbit
 
+NB: If you add a new handler, for example, pool_related_handlers.rb, be sure to add this into
+cep.rb so that it knows about it:
+
+require_relative 'cep/handlers/pool_related_handlers'
+
 
 process flow
 ============

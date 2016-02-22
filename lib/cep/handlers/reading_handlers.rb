@@ -79,6 +79,7 @@ module Reading_Handlers
 	      history << { 'local_time' => row['local_time']*1000, 'reading' => row['reading'] }
 	    end
 	  end
+	  p "#{payload['data_store']}.history.#{payload['source']}"
 	  p 'X'
 	  p history[0]
 	  p 'Y'

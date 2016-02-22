@@ -12,7 +12,7 @@ module Pool_Handlers
   
     @exchange.publish deep_enough,   :routing_key => 'udp_message_received'
 
-    true
+    payload
   end
 
 end

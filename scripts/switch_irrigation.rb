@@ -1,9 +1,20 @@
 require 'net/http'
-require_relative 'ow_switch_base.rb'
+require_relative '../config/config'
 
-include Switch_Base
+        def valid_target?(target)
+                valid = target!=nil && MONITORS[target] && MONITORS[target][:controller] && MONITORS[target][:circuit]
+                unless valid
+                        raise ArgumentError, "Switch '#{target}' not defined."
+                end
+                valid
+        end
 
-@log = Log_Wrapper.new( File.join(File.dirname(__FILE__), 'log.txt') )
+
+def switch_circuit_on(target, duration)
+	http = Net::HTTP.new(MONITORS[target][:controller])
+	request = Net::HTTP::Put.new("/on?switch=#{MONITORS[target][:circuit]}&duration=#{duration}&#{target}")
+	response = http.request(request)
+end
 
 def is_it_wet?
 	http = Net::HTTP.new(API_DOMAIN, API_PORT)
@@ -11,14 +22,19 @@ def is_it_wet?
 	(response['status']=~/200/ ? false : true)
 end
 
-def should_we_flick_the_switch?(target, target_state)
+def should_we_flick_the_switch?(target)
 	answer = true
 	if valid_target?(target)
-		unless MONITORS[target][:run_when_wet]
-			answer = !is_it_wet? if target_state.downcase=='on'
-		end
+		answer = !is_it_wet? unless MONITORS[target][:run_when_wet]
 	end
 	answer
 end
 
-switch(ARGV[0], ARGV[1]) if should_we_flick_the_switch?(ARGV[0], ARGV[1])
+switch   = ARGV[0]
+duration = ARGV[1]
+
+switch_circuit_on(switch, duration) if should_we_flick_the_switch?(switch)
+
+
+
+#switch(ARGV[0], ARGV[1]) if should_we_flick_the_switch?(ARGV[0], ARGV[1])

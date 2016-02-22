@@ -193,8 +193,13 @@ MONITORS = {
                             },
   'pool_level'          => { 
                               :monitor_type       => :switch, 
-                              :expected_frequency => 300,
+                              :expected_frequency => 60,
                               :name               => 'Is the pool full?',
+                            },
+  'pool_deep_enough'    => { 
+                              :monitor_type       => :switch, 
+                              :expected_frequency => 60,
+                              :name               => 'Should the pool be topped up?',
                             },
 
   'bandwidth'               => { :monitor_type => :mrtg, :expected_frequency => 60  },

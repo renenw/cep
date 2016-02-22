@@ -38,7 +38,7 @@ module Precipitation_Handlers
 			is_it_wet = 1 if (_72hour_precipitation + _48hour_precipitation + _24hour_precipitation) > RAINY_DAY_PRECIPITATION_THRESHOLD * 2
 		end
 		
-		t_next 	= { 'received' => payload['received'], 'packet' => "precipitation_3h #{detail['next_three_hours']}" }.to_json
+		t_next 	    = { 'received' => payload['received'], 'packet' => "precipitation_3h #{detail['next_three_hours']}" }.to_json
 		tv   		= { 'received' => payload['received'], 'packet' => "precipitation_tv #{_72hour_precipitation}" }.to_json
 		tw   		= { 'received' => payload['received'], 'packet' => "precipitation_tw #{_48hour_precipitation}" }.to_json
 		tx   		= { 'received' => payload['received'], 'packet' => "precipitation_tx #{_24hour_precipitation}" }.to_json
@@ -52,10 +52,10 @@ module Precipitation_Handlers
 		@exchange.publish tv,     :routing_key => 'udp_message_received'
 		@exchange.publish tw,     :routing_key => 'udp_message_received'
 		@exchange.publish tx,     :routing_key => 'udp_message_received'  
-		@exchange.publish t0,   	:routing_key => 'udp_message_received'  
-	  @exchange.publish t1,   	:routing_key => 'udp_message_received'
-	  @exchange.publish t2,   	:routing_key => 'udp_message_received'
-	  @exchange.publish rain, 	:routing_key => 'udp_message_received'
+		@exchange.publish t0,     :routing_key => 'udp_message_received'  
+	    @exchange.publish t1,     :routing_key => 'udp_message_received'
+	    @exchange.publish t2,     :routing_key => 'udp_message_received'
+	    @exchange.publish rain,   :routing_key => 'udp_message_received'
 
 	  nil
 	end

@@ -57,6 +57,28 @@ Utility Structures
 @cache wraps memcache and stories certain historys (for example, the last fifty anomolies)
 
 
+Example
+=======
+irb
+
+require 'tzinfo'
+require './lib/cep/cacher.rb'
+require './lib/cep/utils'
+require './config/config'
+
+# init
+@cache = Cacher.new('localhost:11211')
+
+# get some history
+history   = @cache.get("30_camp_ground_road.history.pool_water_level")
+
+# make a decision using that history
+one_hour_ago = (CEP_Utils.get_local_time(SETTINGS['timezone'], Time.now.to_i - (60 * 60) )) * 1000
+level_too_low = history[-5,5].select{ |h| h['local_time']>one_hour_ago }.select{ |h| h['converted_value']==1 }.empty?
+
+# publish the result
+deep_enough = { 'received' => payload['received'], 'packet' => "pool_deep_enough #{(level_too_low ? 0 : 1)}" }.to_json
+@exchange.publish deep_enough,   :routing_key => 'udp_message_received'
 
 
 dependencies

@@ -50,7 +50,8 @@ include Cache_Handlers
 include Cache_Warmer
 include Access_Handlers
 include Precipitation_Handlers
-include Switch_Handlers
+#include Switch_Handlers
+include PoolRelatedHandlers
 
 @mysql = Mysql2::Client.new(:host => "localhost", :username => "root", :database => "30_camp_ground_road")
 @cache = Cacher.new('localhost:11211')

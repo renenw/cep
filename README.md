@@ -15,6 +15,10 @@ cep.rb so that it knows about it:
 
 require_relative 'cep/handlers/pool_related_handlers'
 
+and:
+
+include PoolRelatedHandlers
+
 
 process flow
 ============

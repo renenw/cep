@@ -31,7 +31,7 @@ require_relative 'cep/handlers/grey_water_handlers'
 require_relative 'cep/handlers/cache_handlers'
 require_relative 'cep/handlers/access_handlers'
 require_relative 'cep/handlers/precipitation_handlers'
-require_relative 'cep/handlers/switch_handlers'
+# require_relative 'cep/handlers/switch_handlers'
 require_relative 'cep/handlers/pool_related_handlers'
 
 include Lifecycle_Handlers

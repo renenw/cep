@@ -68,11 +68,9 @@ module Reading_Handlers
 	end
 
 	def handle_history(payload)
-	  p 'handling history A'
 	  history = @cache.get("#{payload['data_store']}.history.#{payload['source']}")
 	  if history
-	  	p 'handling history B'
-	    history << { 'local_time' => (payload['local_time']*1000).to_i, 'converted_value' => payload['converted_value'] }
+	  	history << { 'local_time' => (payload['local_time']*1000).to_i, 'converted_value' => payload['converted_value'] }
 	    history.shift if history.length > CACHED_HISTORY_ITEMS
 	  else
 	    p "miss history"
@@ -81,7 +79,10 @@ module Reading_Handlers
 	      history << { 'local_time' => row['local_time']*1000, 'reading' => row['reading'] }
 	    end
 	  end
-	  p 'handling history C'
+	  p 'X'
+	  p history[0]
+	  p 'Y'
+	  p history[-1]
 	  @cache.set("#{payload['data_store']}.history.#{payload['source']}", history)
 	end
 

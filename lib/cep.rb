@@ -32,7 +32,7 @@ require_relative 'cep/handlers/cache_handlers'
 require_relative 'cep/handlers/access_handlers'
 require_relative 'cep/handlers/precipitation_handlers'
 # require_relative 'cep/handlers/switch_handlers'
-require_relative 'cep/handlers/pool_related_handlers'
+require_relative 'cep/handlers/pool_handlers'
 
 include Lifecycle_Handlers
 include MRTG_Handlers
@@ -51,7 +51,7 @@ include Cache_Warmer
 include Access_Handlers
 include Precipitation_Handlers
 #include Switch_Handlers
-include PoolRelatedHandlers
+include Pool_Handlers
 
 @mysql = Mysql2::Client.new(:host => "localhost", :username => "root", :database => "30_camp_ground_road")
 @cache = Cacher.new('localhost:11211')

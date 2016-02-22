@@ -1,4 +1,4 @@
-module Pool_Related_Handlers
+module Pool_Handlers
 
   def after_received_pool_water_level(payload)
 
